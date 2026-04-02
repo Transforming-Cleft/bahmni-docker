@@ -357,22 +357,22 @@ services:
      - 'bahmni-clinical-forms:/home/bahmni/clinical_forms'
 
   bahmni-web:
-    image: bahmni/bahmni-web:${BAHMNI_WEB_IMAGE_TAG:?}
+    image: transformingcleft/bahmniapps:dev
     profiles: ["emr","bahmni-standard","bahmni-mart"]
     volumes:
       - "${CONFIG_VOLUME:?}:/usr/local/apache2/htdocs/bahmni_config/:ro"
-    #   - "${BAHMNI_APPS_PATH:?}/ui/app/:/usr/local/apache2/htdocs/bahmni"
-    #   - "${BAHMNI_APPS_PATH:?}/ui/node_modules/@bower_components/:/usr/local/apache2/htdocs/bahmni/components"
+      # - "${BAHMNI_APPS_PATH:?}/ui/app/:/usr/local/apache2/htdocs/bahmni"
+      # - "${BAHMNI_APPS_PATH:?}/ui/node_modules/@bower_components/:/usr/local/apache2/htdocs/bahmni/components"
     logging: *log-config
     restart: ${RESTART_POLICY}
 
-  # bahmni-apps-frontend:
-  #   image: bahmni/bahmni-apps-frontend:${BAHMNI_APPS_FRONTEND_IMAGE_TAG:?}
-  #   profiles: ["emr","bahmni-standard"]
-  #   # volumes:
-  #   #  - "${BAHMNI_APPS_FRONTEND_PATH:?}/distro/dist/:/usr/local/apache2/htdocs/bahmni-new"
-  #   logging: *log-config
-  #   restart: ${RESTART_POLICY}
+  bahmni-apps-frontend:
+    image: bahmni/bahmni-apps-frontend:${BAHMNI_APPS_FRONTEND_IMAGE_TAG:?}
+    profiles: ["emr","bahmni-standard"]
+    # volumes:
+    #  - "${BAHMNI_APPS_FRONTEND_PATH:?}/distro/dist/:/usr/local/apache2/htdocs/bahmni-new"
+    logging: *log-config
+    restart: ${RESTART_POLICY}
 
 
   implementer-interface:
@@ -387,7 +387,7 @@ services:
 
   reports:
     image: bahmni/reports:${REPORTS_IMAGE_TAG:?}
-    profiles: ["reports","bahmni-standard"]
+    profiles: ["emr", "reports","bahmni-standard"]
     environment:
       TZ: ${TZ}
       OPENMRS_DB_HOST: ${OPENMRS_DB_HOST:?}
@@ -420,7 +420,7 @@ services:
   reportsdb:
     platform: linux/amd64
     image: ${REPORTS_DB_IMAGE_NAME:?}
-    profiles: ["reports","bahmni-standard"]
+    profiles: ["emr", "reports","bahmni-standard"]
     environment:
       TZ: ${TZ}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?}
