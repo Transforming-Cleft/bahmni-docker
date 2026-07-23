@@ -30,13 +30,13 @@ services:
     environment:
       TZ: ${TZ}
 
-  bahmni-config:
-    #image: 'bahmni/standard-config:${CONFIG_IMAGE_TAG:?}'
-    image: transformingcleft/standerd-config:dev
-    volumes:
-      - '${CONFIG_VOLUME:?}:/usr/local/bahmni_config'
-    logging: *log-config
-    restart: ${RESTART_POLICY}
+  # bahmni-config:
+  #   image: 'bahmni/standard-config:${CONFIG_IMAGE_TAG:?}'
+  #   # image: transformingcleft/standerd-config:dev
+  #   volumes:
+  #     - '${CONFIG_VOLUME:?}:/usr/local/bahmni_config'
+  #   logging: *log-config
+  #   restart: ${RESTART_POLICY}
 
   openelis:
     profiles: ["openelis","bahmni-standard"]
@@ -288,7 +288,7 @@ services:
   metabasedb:
     image: postgres:${METABASE_POSTGRES_IMAGE_TAG:?}
     restart: on-failure:[3]
-    profiles: ["metabase", "bahmni-mart"]
+    profiles: ["metabase", "bahmni-mart", "bahmni-standard", "emr"]
     environment:
       TZ: ${TZ}
       POSTGRES_DB: ${METABASE_DB_NAME:?}
@@ -300,7 +300,7 @@ services:
   metabase:
     image: bahmni/bahmni-metabase:${METABASE_IMAGE_TAG:?}
     restart: on-failure:[3]
-    profiles: ["metabase", "bahmni-mart"]
+    profiles: ["metabase", "bahmni-mart", "bahmni-standard", "emr"]
     environment:
       TZ: ${TZ}
       MB_ADMIN_EMAIL: ${METABASE_ADMIN_EMAIL:?}
