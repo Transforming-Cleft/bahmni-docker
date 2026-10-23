@@ -30,13 +30,13 @@ services:
     environment:
       TZ: ${TZ}
 
-  # bahmni-config:
-  #   image: 'bahmni/standard-config:${CONFIG_IMAGE_TAG:?}'
-  #   # image: transformingcleft/standerd-config:dev
-  #   volumes:
-  #     - '${CONFIG_VOLUME:?}:/usr/local/bahmni_config'
-  #   logging: *log-config
-  #   restart: ${RESTART_POLICY}
+  bahmni-config:
+    # image: 'bahmni/standard-config:${CONFIG_IMAGE_TAG:?}'
+    image: 'transformingcleft/standerd-config:${CONFIG_IMAGE_TAG:?}'
+    volumes:
+      - '${CONFIG_VOLUME:?}:/usr/local/bahmni_config'
+    logging: *log-config
+    restart: ${RESTART_POLICY}
 
   openelis:
     profiles: ["openelis","bahmni-standard"]
@@ -358,7 +358,7 @@ services:
      - 'bahmni-clinical-forms:/home/bahmni/clinical_forms'
 
   bahmni-web:
-    image: transformingcleft/bahmniapps:dev
+    image: 'transformingcleft/bahmniapps:${BAHMNI_WEB_IMAGE_TAG:?}'
     profiles: ["emr","bahmni-standard","bahmni-mart"]
     volumes:
       - "${CONFIG_VOLUME:?}:/usr/local/apache2/htdocs/bahmni_config/:ro"
