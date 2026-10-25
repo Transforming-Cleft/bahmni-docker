@@ -1,6 +1,6 @@
 # Bahmni Backup & Restore (S3)
 
-The `backup` service in `bahmni-standard/docker-compose.yml` takes a daily backup of Bahmni at midnight (server local time), uploads it to S3, keeps the last 3 days, and can restore any backup from S3 or local storage.
+The `backup` service in `bahmni-standard/docker-compose.yml` takes a daily backup of Bahmni at midnight (server local time), uploads it to S3, keeps the last 10 days in S3 (3 days locally), and can restore any backup from S3 or local storage.
 
 All commands below are run from the `bahmni-standard` folder:
 
@@ -35,9 +35,9 @@ Each backup is one archive, `bahmni-standard_<YYYY-MM-DD_HH-MM-SS>.tar.gz`. It h
    | `S3_SSE` | `AES256` | Server-side encryption (`AES256` or `aws:kms`) |
    | `BACKUP_CRON_SCHEDULE` | `0 0 * * *` | When to back up (cron format, in the server's local time zone) |
    | `BACKUP_RUN_ON_STARTUP` | `false` | Also back up when the container starts |
-   | `BACKUP_S3_RETENTION_DAYS` | `3` | Days of backups kept in S3 |
+   | `BACKUP_S3_RETENTION_DAYS` | `10` | Days of backups kept in S3 |
    | `BACKUP_LOCAL_PATH` | `./backup-artifacts` | Host folder for local archives |
-   | `BACKUP_LOCAL_RETENTION_DAYS` | `1` | Days kept locally (`0` = delete after upload) |
+   | `BACKUP_LOCAL_RETENTION_DAYS` | `3` | Days kept locally (`0` = delete after upload) |
    | `RESTORE_SKIP_INITIALIZER_DOMAINS` | `ocl` | OpenMRS Initializer domains to skip on the first start after a restore (comma-separated, `all`, or empty for none). See [Restoring onto a server with different config](#restoring-onto-a-server-with-different-config) |
    | `BACKUP_MEM_LIMIT` / `BACKUP_CPUS` | `256m` / `0.5` | Resource caps for the backup container |
 
